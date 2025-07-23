@@ -1,0 +1,26 @@
+.button-1{
+    display: block;
+    border-radius: 10px;
+    border-width: 0px;
+    width: 100px;
+    height: 30px;
+    background-color: rgb(241, 241, 241);
+}
+.button-1:hover{
+    background-color: rgb(211, 221, 230);
+    cursor: pointer;
+}
+.removeButton{
+    background-color: rgb(241, 241, 241);
+    width: 100px;
+    height: 20px;
+    border-radius: 5px;
+    display: block;
+    text-align: center;
+    border: 0cap;
+}
+.removeButton:hover{
+    background-color: #e76f51;
+    color: #eae0d5;
+    cursor: pointer;
+}

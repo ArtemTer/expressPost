@@ -1,0 +1,30 @@
+.button{
+    width: 210px;
+    height: 25px;
+    border-radius: 10px;
+    border-width: 0px;
+    background-color: rgb(241, 241, 241);
+    margin-top: 5px;
+}
+.field{
+    width: 210px;
+    height: 25px;
+    border-radius: 10px;
+    border-width: 0px;
+    border-style: groove;
+    background-color: rgb(244, 247, 248);
+    margin-top: 5px;
+    text-align: center;
+}
+button:hover{
+    background-color: rgb(211, 221, 230);
+    cursor: pointer;
+}
+.form{
+    text-align: center;
+    display: block;
+    line-height: 30px;
+}
+.title{
+    font-size: x-large;
+}

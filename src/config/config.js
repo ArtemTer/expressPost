@@ -1,0 +1,9 @@
+module.exports = {
+    PORT: 3000,
+    COOKIES_AGE: 24 * 60 * 60 * 1000,
+    MAX_POST_DELAY: 3,
+    MAX_PAGE_COUNT: 10000,
+    POST_PAGE_SIZE: 9,
+    PAGE_BAR_SIZE: 9,
+    MAX_IMAGE_TO_UPLOAD_SIZE: 500 // kb
+}

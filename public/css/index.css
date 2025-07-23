@@ -1,0 +1,74 @@
+.panel{
+    display: flex;
+    margin-left: 50%;
+}
+.searchbar{
+    border-radius: 20px;
+    width: 200px;
+    background-color: rgb(221, 233, 241);
+    border-width: 0px;
+    height: 150%;
+    width: 300px;
+    padding-left: 20px;
+    margin-left: -50%;
+}
+.buttons{
+    margin-left: 75%;
+    display: flex;
+}
+.button{
+    margin-top: -15px;
+    display: block;
+    border-radius: 10px;
+    border-width: 0px;
+    width: 100px;
+    height: 30px;
+    background-color: rgb(241, 241, 241);
+}
+button:hover{
+    background-color: rgb(211, 221, 230);
+    cursor: pointer;
+}
+.login{
+    display: flex;
+    margin-left: 90%;
+}
+.post{
+    display: block;
+    border-style: groove;
+    border-radius: 10px;
+    width: 600px;
+    height: 140px;
+    margin-left: -300px;
+    margin-top: 20px;
+}
+.form{
+    display: block;
+    margin-left: 50%;
+}
+.title{
+    font-weight: 700;
+    font-size: larger;
+    margin-left: 10px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+a, p{
+    margin-left: 10px;
+}
+a, a:hover, a:active {
+    text-decoration: none;
+    color: inherit;
+}
+a:hover {
+    text-decoration: none;
+    color: rgb(129, 129, 129);
+}
+.head{
+    display: flex;
+    margin-left: 5%;
+    margin-top: -55px;
+    font-size: 30px;
+}

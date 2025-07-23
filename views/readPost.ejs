@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="font.css" />
+    <link rel="stylesheet" type="text/css" href="buttons.css" />
+    <title><%= post.name %></title>
+
+    <style>
+        .post{
+            display: block;
+            margin: auto;
+            border-style: groove;
+            width: 800px;
+            height: 100%;
+            overflow: visible;
+        }
+        .textarea{
+            width: 99%;
+            height: auto;
+            min-height: 400px;
+            font-size: larger;
+            margin: auto;
+            border-style: groove;
+            overflow-y: scroll;
+        }
+        p, a{
+            margin-left: 10px;
+        }
+        .title{
+            font-weight: 700;
+            font-size: larger;
+        }
+        .button{
+            margin-left: 78%;
+            margin-top: -20px;
+            display: flex;
+        }
+        a, a:hover, a:active {
+            text-decoration: none;
+            color: inherit;
+        }
+        .commentsContainer{
+            width: 800px;
+            height: 100%;
+            overflow: visible;
+            margin: auto;
+            display: block;
+        }
+        .commentBox{
+            width: 98.5%;
+            height: 50px;
+            border-radius: 10px;
+            padding-left: 10px;
+            resize: none;
+        }
+        .image{
+            position: relative;
+        }
+        .comment{
+            margin-left: 50%;
+            margin: auto;
+            border-style: groove;
+            border-radius: 10px;
+            width: 800px;
+            height: auto;
+            overflow: visible;
+        }
+        .commentTextarea{
+            resize: none;
+            width: 97%;
+            height: auto;
+            margin: auto;
+            border-style: unset;
+            margin-left: 10px;
+            padding-top: 15px;
+        }
+        .rateButton{
+            border-width: 0px; 
+            background-color: white; 
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <a class="head" href="/">Home</a>
+    <div class="post">
+        <p class="title"><%= post.name %></p>
+        <% if (reader == post.author){%>
+            <div class="button">
+                <button class="button-1" style="height: 20px;" onclick="window.open(`/editPost?id=<%= post.id %>`, '_self')">Редактировать</button>
+                <button class="removeButton" onclick="window.open(`/deletePost?id=<%= post.id %>`, '_self')">Удалить</button>
+            </div>
+        <%}%>
+        <div class="textarea"><%- post.data %></div>
+        <a href="/user?user=<%= post.author %>"><%= post.author %></a>
+        <p><%= post.tags %></p>
+
+        <% if (reader){%>
+            <div style="display: flex;">
+                <p><%= post.rating %></p>
+                <form action="rate?id=<%= post.id %>&value=1" method="post">
+    
+                    <% if (rating == 1){%>
+                        <button class="rateButton"><img style="width: 25px; height: 25px;" src="uploads/system/likeIcon2.png"></button>
+                    <%} else {%>
+                        <button class="rateButton"><img style="width: 25px; height: 25px;" src="uploads/system/likeIcon.png"></button>
+                    <%}%>
+                    
+                </form>
+                <form action="rate?id=<%= post.id %>&value=-1" method="post">
+    
+                    <% if (rating == -1){%>
+                        <button class="rateButton"><img style="width: 25px; height: 25px;" src="uploads/system/dislikeIcon2.png"></button>
+                    <%} else {%>
+                        <button class="rateButton"><img style="width: 25px; height: 25px;" src="uploads/system/dislikeIcon.png"></button>
+                    <%}%>
+                </form>
+            </div>
+    
+        <%}%>
+
+    </div>
+    <% if (reader){%>
+        <form class="commentsContainer" method="POST" action="/postcomment?postId=<%= post.id %>">
+            <p class="title">Комментарии</p>
+            <textarea id="autoresizing" class="commentBox" placeholder="Поделитесь СВОими мыслями" name="commentText"></textarea>
+            <button class="button-1" style="margin-left: 87%;">Опубликовать</button>
+        </form>
+    <%}%>
+    <br>
+    <div>
+        <% comments.forEach(comment => {%>
+            <div class="comment">
+                <% if (reader == comment.user){%>
+                    <form method="post" action="/removecomment?id=<%= comment.id %>" style="margin-left: 92%; top: 10px; position: relative;">
+                        <button class="removeButton" style="margin-left: -60%; margin-top: -5%; position: absolute;">Удалить</button>
+                    </form>
+                <%}%>
+                <br>
+                <a href="/user?user=<%= comment.user %>"><%= comment.user %></a>
+                <p class="commentTextarea" id="autoresizing" readonly><%= comment.text %></p>
+                <p><%= comment.date %></p>
+            </div>
+            <br>
+        <%})%>
+    </div>
+
+    <script>
+        $("textarea").each(function () {
+            this.style.height = this.scrollHeight + "px";
+            this.style.overflowY = "hidden";
+        }).on("input", function () {
+            this.style.height = "auto";
+            this.style.height = this.scrollHeight + "px";
+        });
+    </script>
+
+</body>
+</html>

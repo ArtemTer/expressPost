@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="font.css" />
+    <title>Make a post</title>
+    <style>
+        .form{
+            display: block;
+            text-align: center;
+        }
+        input[type="text"]{
+            width: 60%;
+        }
+        .textarea{
+            margin: auto;
+            width: 60%;
+            height: 450px;
+            font-size: 20px;
+            text-align: left;
+            border-style: groove;
+            overflow-y: scroll;
+        }
+        .selectBox{
+            margin-left: 95%;
+            margin-top: -5%;
+            width: 50px;
+            height: 50px;
+        }
+        .selectBox:hover{
+            cursor: se-resize;
+            overflow: visible;
+        }
+        .image{
+            position: relative;
+        }
+        a, a:hover, a:active {
+            text-decoration: none;
+            color: inherit;
+        }
+        a:hover {
+            text-decoration: none;
+            color: rgb(129, 129, 129);
+        }
+    </style>
+</head>
+<body>
+    <a class="head" href="/">Home</a>
+    <div class="form">
+        <form method="post" action="<%= action %>?id=<%= id %>" id="form">
+            <input style="height: 30px; font-size: 20px;" type="text" autocomplete="off" placeholder="head" name="head" value="<%= title %>">
+            <br>
+            <div class="textarea" contenteditable="true" id="textForm" ><%- data %></div>
+            <br>
+            <select name="tags">
+                <option>IT</option>
+                <option>Sience</option>
+                <option>News</option>
+                <option>Politics</option>
+                <option>Games</option>
+                <option>Meme</option>
+            </select>
+            <input id="imageUrl" placeholder="image URL">
+            <button id="loadImg">Load image</button>
+            <br>
+            <button style="width: 10%;" onclick="sendData()">Send</button>
+            <br>
+            <input id="newText" name="data" style="visibility: hidden;">
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('form');
+        const submitBtn = document.getElementById('loadImg');
+
+        submitBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+        });
+
+        function sendData(){
+            const mainText = document.getElementById('textForm').innerHTML;
+            document.getElementById('newText').value = mainText;
+        }
+        
+        const resizer = document.getElementById('textForm');
+        let resizable;
+        let container;
+        let isResizing = false;
+        let isMoving = false;
+
+        const MAX_DIST = 25;
+        const MAX_SIZE = 100;
+
+        resizer.addEventListener('mousedown', (e) => {
+            container = document.getElementById('imageContainer');
+            resizable = document.getElementById('image');
+
+            if (resizable){
+                const left = resizable.getBoundingClientRect().left;
+
+                if (left - MAX_DIST < e.clientX - resizable.width && left + MAX_DIST > e.clientX - resizable.width){
+                    isResizing = true;
+                }
+                else{
+                    isMoving = true;
+                }
+            }
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (resizable){
+                const shiftX = e.clientX - resizable.getBoundingClientRect().left;
+                const shiftY = e.clientY - resizable.getBoundingClientRect().top;
+                const resizeX = shiftY * resizable.style.width / resizable.style.height;
+                const resizeY = shiftX * resizable.style.height / resizable.style.width;
+
+                if (isResizing) {
+
+                    if (shiftX > MAX_SIZE) {
+                        container.style.width = shiftX + 'px';
+                        resizable.style.width = shiftX + 'px';
+                    }
+                    if (shiftY > MAX_SIZE) {
+                        container.style.height = shiftY + 'px';
+                        resizable.style.height = shiftY + 'px';
+                    }
+                }
+                if (isMoving){
+                    var pageX = event.pageX
+                    var pageY = event.pageY;
+                    
+                    resizable.style.left = e.pageX - shiftX / 100 - 300 + "px";
+                    resizable.style.top = e.pageY - shiftY / 100 - 200 + "px";
+
+                    container.style.left = e.pageX - shiftX / 100 - 200 + "px";
+                    container.style.top = e.pageY - shiftY / 100 - 200 + "px";
+                }
+            }
+        });
+
+        document.addEventListener('mouseup', (e) => {
+            isResizing = false;
+            isMoving = false
+        });
+
+        $(function(){
+            $("#loadImg").click(function(){ 
+                var container = $('<div id="imageContainer"></div>');
+                container.appendTo('#textForm');
+
+                var src = $('#imageUrl').val();
+                var img = $(`<img id="image" class="image">`);
+                img.attr('src', src);
+                img.appendTo('#imageContainer')
+                .height(100 + '%')
+                .width(100 + '%');
+
+                var selectBox = $('<div class="selectBox"></div>');
+                selectBox.appendTo('#imageContainer')
+            });
+        });
+
+        const textDiv = document.getElementById('textForm');
+
+        textDiv.addEventListener('paste', function(event) {
+            event.preventDefault(); // Отменяем стандартное поведение вставки
+
+            // Получаем содержимое, которое будет вставлено
+            const text = (event.clipboardData || window.clipboardData).getData('text/plain');
+
+            // Вставляем только текст
+            document.execCommand('insertText', false, text);
+        });
+
+    </script>
+</body>
+</html>

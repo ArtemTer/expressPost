@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <title>Main</title>
+
+    <style>
+        .floating-window-main {
+            position: fixed;
+            top: 5%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgb(255, 255, 255);
+            padding: 20px;
+            z-index: 100;
+            width: 100%;
+            height: 50px;
+            border-style: groove;
+            border-top: 1px;
+        }
+        .floating-window-cookies {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgb(250, 250, 250);
+            padding: 20px;
+            border-radius: 5px;
+            border-color: rgb(248, 248, 248);
+            border-style: groove;
+            z-index: 100;
+            width: 50%;
+            text-align: center;
+        }
+        .page_bar{
+            text-align: center;
+        }
+        .page_bar:hover{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- <div class="floating-window-cookies">
+        Мы используем файлы Cookie. (Нам всё равно на ваше мнение, но лучше согласиться)
+        <br>
+        <div style="display: block;">
+            <br>
+            <button>Принять</button>
+            <button>Принять</button>
+        </div>
+    </div> -->
+
+    <div class="floating-window-main">
+        <br>
+        <div class="panel">
+            <form method="get" action="/search">
+                <input class="searchbar" name="data" placeholder="Поиск" autocomplete="off">
+            </form>
+            <br>
+        </div>
+        
+        <div class="buttons">
+            <% if (!login){%>
+                <button class="button" onclick="window.open(`/signUp`, '_self')">Регистрация</button>
+                <button class="button" onclick="window.open(`/signIn`, '_self')">Вход</button>
+            <%} else {%>
+                <button class="button" onclick="window.open(`/post`, '_self')">Публикация</button>
+                <button class="button" style="background-color: white;" onclick="window.open(`/user?user=<%= login %>`, '_self')"><%= login %></button>
+                <button class="button" onclick="window.open(`/logout`, '_self')">Выйти</button>
+            <%}%>
+        </div>
+        <br>
+        <p class="head">ExPost</p>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="form">
+        <% newPosts.forEach(post => {%>
+            <div class="post">
+                <br>
+                <div style="display: flex; width: 100%;">
+                    <a class="title" href="/read?id=<%= post.id %>"><%= post.name %></a>
+                </div>
+                <br>
+                <a href="/user?user=<%= post.author %>"><%= post.author %></a>
+                <a href="/searchByTag?tag=<%= post.tags %>"><%= post.tags %></a>
+            </div>
+        <%});%>
+    </div>
+    <br>
+    <div class="page_bar">
+        <% for (var i = minPage - 2; i < minPage + pageCount; i++){%>
+            <% if (i > 0){%>
+                <a href="/?page=<%- i %>"><%= i %></a>
+            <%}%>
+        <%}%>
+    </div>
+    <br>
+    <div style="text-align: center;">
+        <p>"ExPost" copyright ООО "Хз чё тут написать" 2025. Не все права защищены.</p>
+    </div>
+
+</body>
+</html>

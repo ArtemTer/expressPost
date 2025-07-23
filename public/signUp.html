@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="loginPage.css"/>
+    <link rel="stylesheet" type="text/css" href="font.css" />
+    <title >Sign up</title>
+
+    <style>
+        .floating-warning{
+            position: relative;
+            left: 50%;
+            transform: translate(-50%, 20%);
+            background-color: rgb(255, 255, 255);
+            padding: 5px;
+            z-index: 100;
+            width: 550px;
+            height: 50px;
+            border-style: groove;
+            border-width: 2px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .warning-text{
+            line-height: 20px;
+            font-size: 15px;
+            transform: translate(0%, -20%);
+        }
+    </style>
+</head>
+<body>
+    <form method="post" action="/registration" class="form">
+        <p class="title">Регистрация</p>
+        <input id="login" class="field" type="text" name="login" onpaste="return false;" placeholder="Логин" lang="en" autocomplete="off" minlength="3" maxlength="24" pattern ="^[a-zA-Z0-9]+$" required>
+        <br>
+        <input id="password" class="field" type="password" name="password" onpaste="return false;" placeholder="Пароль" minlength="6" maxlength="24" required>
+        <br>
+        <button class="button">Регистрация</button>
+
+        <div class="floating-warning">
+            <p class="warning-text">Можно использовать только латинские буквы и специальные символы: @, #, $</p>
+        </div>
+    </form>
+
+    <script>
+        const loginPattern = /^[A-Za-z0-9\s-_]*$/;
+        const passwordPattern = /^[A-Za-z0-9\s-$-#-@]*$/;
+
+        document.getElementById('login').addEventListener('input', function() {
+            if (!loginPattern.test(this.value)){
+                this.value = this.value.slice(0, length - 1);
+            }
+        });
+
+        document.getElementById('password').addEventListener('input', function() {
+            if (!passwordPattern.test(this.value)){
+                this.value = this.value.slice(0, length - 1);
+            }
+        });
+
+    </script>
+</body>
+</html>

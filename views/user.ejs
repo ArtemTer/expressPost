@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="buttons.css" />
+    <link rel="stylesheet" type="text/css" href="font.css" />
+    <title><%= user %></title>
+    <style>
+        .infoForm{
+            margin-left: 10%;
+            display: block;
+            width: 90%;
+            text-indent: -10px;
+        }
+        .postForm{
+            display: block;
+            margin-left: 10%;
+        }
+        .post{
+            border-style: groove;
+            border-radius: 10px;
+            margin-top: 20px;
+            width: 90%;
+        }
+        .title{
+            font-weight: 700;
+            font-size: larger;
+            margin-left: 10px;
+        }
+        a, p{
+            margin-left: 10px;
+        }
+        a, a:hover, a:active {
+            text-decoration: none;
+            color: inherit;
+        }
+        a:hover {
+            text-decoration: none;
+            color: rgb(129, 129, 129);
+        }
+        .aboutBox{
+            resize: none;
+            width: 90%;
+            height: auto;
+            border-radius: 10px;
+            text-indent: 10px;
+        }
+        .updateButton{
+            margin-right: 40%;
+            top: 5px;
+            z-index: 5;
+        }
+        .avatar{
+            width: 150px;
+            height: 150px;
+            clip-path: circle();
+        }
+    </style>
+</head>
+<body>
+    <a class="head" href="/">Home</a>
+    <div class="infoForm">
+        <img class="avatar" src="uploads/<%= avatar %>">
+
+        <% if (login == user){ %>
+            <form action="/uploadImage" method="post" enctype="multipart/form-data">
+                <input type="file" accept="image/*" name="filedata">
+                <input type="submit" value="загрузить">
+            </form>
+            <form action="/deleteUser?user=<%= login %>" method="post">
+                <button class="removeButton" style="width: auto; position: absolute; left: 80%; top: 5%;">Удалить аккаунт</button>
+            </form>
+        <%} %>
+        <p><%= user %></p>
+        <p>Дата регестрации <%= date %></p>
+        <p>О себе</p>
+        <% if (login == user){%>
+            <form method="post" action="/updateInfo" id="form">
+                <textarea class="aboutBox" style="margin-left: 10px;" name="text" ><%- about %></textarea>
+                <button class="button-1">Обновить</button>
+            </form>
+        <%} else{%>
+            <textarea class="aboutBox" readonly disabled><%- about %></textarea>
+        <%}%>
+        <p>Посты</p>
+    </div>
+    <div class="postForm">
+        <% newPosts.forEach(post => {%>
+            <div class="post">
+                <br>
+                <a class="title" href="/read?id=<%= post.id %>"><%= post.name %></a>
+                <p><%= post.author %></p>
+                <p><%= post.tags %></p>
+                <%if (login == user){%>
+                    <button class="removeButton" onclick="window.open(`/deletePost?id=<%= post.id %>`, '_self')">Удалить</button>
+                <%}%>
+            </div>
+        <%});%>
+    </div>
+
+    <script>
+        function reload(){
+            location.reload();
+        }
+
+        $("textarea").each(function () {
+            this.style.height = this.scrollHeight + "px";
+            this.style.overflowY = "hidden";
+        }).on("input", function () {
+            this.style.height = "auto";
+            this.style.height = this.scrollHeight + "px";
+        });
+    </script>
+
+</body>
+</html>
